@@ -1,7 +1,8 @@
 const zBox = document.querySelector('.list')
       zSelect = document.querySelector('#select')
+      zInput = document.querySelector('.input');
 
-pokemons.forEach((element, index, array) => {
+const renderData = (element) => {
   let newLi = document.createElement("li")
       newImg = document.createElement("img")
       newHeading = document.createElement("h2")
@@ -21,9 +22,13 @@ pokemons.forEach((element, index, array) => {
   newLi.appendChild(newDesc)
   newLi.appendChild(newWeight)
   zBox.appendChild(newLi)
+}
+
+pokemons.forEach((element, index, array) => {
+    renderData(element)
 })
 
-
+//***************FILTER TYPE**********************//
 let filterBox = []
 
 pokemons.forEach(value => {
@@ -33,6 +38,7 @@ pokemons.forEach(value => {
     }
   })
 })
+
 
 filterBox.forEach(item => {
   let zOption = document.createElement('option')
@@ -47,27 +53,19 @@ filterBox.forEach(item => {
     zBox.innerHTML = null;
     pokemons.map((value) => {
       if(value.type.includes(e.target.value)) {
-        let newLi = document.createElement("li")
-      newImg = document.createElement("img")
-      newHeading = document.createElement("h2")
-      newDesc = document.createElement("p")
-      newWeight = document.createElement("p")
-
-      newImg.setAttribute('src', value.img)
-      newHeading.textContent = value.name
-      newDesc.textContent = value.type
-      newWeight.textContent = value.weight
-
-
-      newLi.style.cssText = 'border:1px solid; padding:20px'
-      
-      newLi.appendChild(newImg);
-      newLi.appendChild(newHeading)
-      newLi.appendChild(newDesc)
-      newLi.appendChild(newWeight)
-      zBox.appendChild(newLi)
+        renderData(value)
       }
     })
   }
 
   zSelect.addEventListener('change', changeSelect)
+
+//****************SEARCH*********************//
+zInput.addEventListener('keyup', (e) => {
+  zBox.innerHTML = null
+    pokemons.forEach((value) => {
+      if(value.name.toLowerCase().includes(e.target.value.toLowerCase())){
+        renderData(value)
+      }
+    })
+})
